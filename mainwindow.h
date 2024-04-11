@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +18,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void updateSerialPortList();
+    QSerialPort serial;
+
+
+
+private slots:
+
+    void on_c_openSPBtn_clicked();
 
 private:
     Ui::MainWindow *ui;
