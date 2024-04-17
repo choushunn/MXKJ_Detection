@@ -43,7 +43,9 @@ void MainWindow::on_c_openSPBtn_clicked()
     serial.setBaudRate(115200);
 
     //打开串口
-    if(!serial.open(QIODevice::ReadWrite))
+    if(!serial.open(QIODevice::ReadWrite)){
+
+    }
 
 }
 
