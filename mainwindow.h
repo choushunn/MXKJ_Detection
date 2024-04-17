@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <opencv2/opencv.hpp>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,16 +18,21 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void updateSerialPortList();
-    QSerialPort serial;
+
+
 
 
 
 private slots:
+    void updateFrame();
 
-    void on_c_openSPBtn_clicked();
+    void updateCameraList();
+
+    void on_c_btn_open_clicked();
 
 private:
     Ui::MainWindow *ui;
+    cv::VideoCapture videoCapture;
+    QTimer *timer;
 };
 #endif // MAINWINDOW_H
