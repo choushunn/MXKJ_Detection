@@ -28,25 +28,31 @@ set(OpenCV_DIR "${THIRD_PARTY_LIB_PATH}\\opencv\\build")
  set(FastDeploy_DIR "${THIRD_PARTY_LIB_PATH}/fastdeploy-win-x64-gpu")
  # CUDA
  set(CUDA_DIRECTORY "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8")
+ #ncnn
+ set(ncnn_DIR "${THIRD_PARTY_LIB_PATH}\\ncnn\\x64\\lib\\cmake\\ncnn")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 # find_package(OpenCV REQUIRED)
 find_package(FastDeploy REQUIRED)
+find_package(ncnn REQUIRED)
 
 
+include_directories("C:\\Code\\runtime\\ncnn\\x64\\include\\ncnn")
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        ccamera.h ccamera.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ccamera.h ccamera.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -54,7 +60,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(${${PROJECT_NAME}} SHARED
+
+        add_library(${PROJECT_NAME} SHARED
+
             ${PROJECT_SOURCES}
         )
 # Define properties forA Android with Qt 5 after find_package() calls as:
@@ -68,6 +76,8 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${FastDeploy_LIBS}) # 添加FastDeploy库依赖
+target_link_libraries(${PROJECT_NAME} PRIVATE ncnn)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
