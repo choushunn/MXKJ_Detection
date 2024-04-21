@@ -7,6 +7,7 @@
 #include <QFileDialog>//>打开失败
 #include <QMessageBox>
 #include <QMovie>
+#include "ccamera.h"
 #include "ncnn_export.h"
 
 
@@ -29,7 +30,7 @@ public:
 
 
 private slots:
-    void updateFrame();
+    void onFrameAvailable(const QImage& qImage);
 
     void updateCameraList();
 
@@ -40,10 +41,12 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
+    CCamera *camera=nullptr;
     Ui::MainWindow *ui;
     cv::VideoCapture videoCapture;
     QTimer *timer;
     QPixmap *image;
     QMovie *video;
+    QDateTime currentDateTime = QDateTime::currentDateTime();
 };
 #endif // MAINWINDOW_H
